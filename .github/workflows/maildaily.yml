@@ -1,0 +1,30 @@
+name: 'send mail to gf'
+
+on:
+  push:
+    branches: 
+      - master
+  schedule:
+      - cron: '0 23 * * *'
+
+
+jobs:
+  mail-daily:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v2
+      - name: 'Set up Python'
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.7
+      - name: 'Install requirements'
+        run: pip install -r mail-sender/requirements.txt
+      - name: 'Working'
+        env:
+          TIANQI_APPID: ${{ secrets.TIANQI_APPID }}
+          TIANQI_APPSEC: ${{ secrets.TIANQI_APPSEC }}
+          FROM_ADDR: ${{ secrets.FROM_ADDR }}
+          FROM_PSWD: ${{ secrets.FROM_PSWD }}
+          TO_ADDR: ${{ secrets.TO_ADDR }}
+        run: python mail-sender/mail.py
