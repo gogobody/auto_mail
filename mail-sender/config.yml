@@ -1,0 +1,19 @@
+# 需要注意的是，所有的修改，都填在引号里面
+application:
+  name: '每日天气预报'
+  mail:
+    host: 'smtp.163.com' #也可以改成其他的，比如qq邮箱
+    port: '465' #也可以改成其他的，比如163邮箱
+    username: '' #username
+    password: '' #password
+    default-encoding: 'utf-8'
+  weather:
+    appid: '' #在www.tianqiapi.com申请的appid，有免费 api
+    appsecret: '' #在www.tianqiapi.com申请的appsecret
+girlfriend:
+  mails:
+    - 'xx@qq.com' # 女票的邮箱，可以写多个
+  city: '重庆' #你女票所在的城市
+  start_love_date: "2019-01-13" #开始在一起的日期，格式"2020-05-15"，请保持一致
+  girlname: '攀儿' #对你的女票的爱称
+  boyname: '小王' #你在你女票那里的称呼

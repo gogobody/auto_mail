@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no"/>
+    <title>暖心</title>
+</head>
+<body>
+<div class="content"
+     style="margin: 0 auto;box-shadow: 0 0 10px #333; width: 560px;margin-top: 3.125rem;margin-bottom: 3.125rem; font-size: 1.25rem;color: dimgrey;font-family: '微软雅黑';display: flex;flex-direction: column;text-align: center;">
+    <p class="title">今天是我们认识的第 <span style="color: crimson;font-size: 2rem;">{{$day}}</span> 天</p>
+    <p>
+        <span class="one" style="margin-top: 1.25rem; color: cornflowerblue;font-size: 1rem;">今天：{{datetime}}</span>
+        <span class="wa" style="font-size: 0.875rem;margin-top: 1rem;">最近几天天气</span>
+    </p>
+    <p class="wather" style="margin-top: 1rem;font-size: 1rem;"><span></span>{{today}}</p>
+    <p class="wather" style="margin-top: 1rem;font-size: 1rem;"><span></span>{{tomorrow}}</p>
+    <p class="wather" style="margin-top: 1rem;font-size: 1rem;"><span></span>{{aftertomorrow}}</p>
+    <p class="wather" style="margin-top: 1rem;font-size: 1rem;">{{summary}}</p>
+    <div class="img" style="margin-top: 1.25rem;"><img src="{{$img}}" style=" width: 90%;"></div>
+    <p class="imgt" style="font-size: 12px;color: darkgray;margin-bottom: 1.25rem;">摄影</p>
+    <div class="text" style="font-size: 0.875rem;width: 80%;margin: 0 auto;line-height: 1.5rem;margin-bottom: 3rem;">
+        {{$desc}}
+    </div>
+    <div style="font-size:12px;margin: 0 auto; margin-bottom: 2rem;">@{{girlname}} x @{{boyname}}</div>
+</div>
+</body>
+</html>
