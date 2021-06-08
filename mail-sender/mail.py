@@ -5,6 +5,7 @@ from datetime import datetime
 import smtplib
 from email.mime.text import MIMEText
 from email.header import Header
+from email.utils import parseaddr, formataddr
 
 """
 天气来自： http://www.tianqiapi.com/
@@ -33,6 +34,7 @@ template_path = os.path.join(father_path, 'template.html')
 
 print("config_path:", config_path)
 
+
 # 读取yml配置
 def getYmlConfig(yaml_file=config_path):
     file = open(yaml_file, 'r', encoding="utf-8")
@@ -40,6 +42,11 @@ def getYmlConfig(yaml_file=config_path):
     file.close()
     config = yaml.load(file_data, Loader=yaml.FullLoader)
     return dict(config)
+
+
+def format_addr(s):
+    name, addr = parseaddr(s)
+    return formataddr((Header(name, 'utf-8').encode(), addr))
 
 
 config = getYmlConfig()
@@ -88,7 +95,10 @@ def getMessage():
     now = datetime.now()
     start = datetime.strptime(girlfriend['start_love_date'], "%Y-%m-%d")
     days = (now - start).days
-    city = girlfriend['city']
+    try:
+        city = os.environ['CITY']
+    except KeyError:
+        city = girlfriend['city']
     boyname = girlfriend['boyname']
     girlname = girlfriend['girlname']
     weather = getWeather(city=city)
@@ -142,19 +152,19 @@ def sendQQMail():
     except KeyError:
         mail_pass = application['mail']['password']
     try:
-        receivers = os.environ['TO_ADDR']
+        receivers = ["{}<{}>".format(girlname, os.environ['TO_ADDR'])]
     except KeyError:
-        receivers = girlfriend['mails']
+        receivers = ["{}<{}>".format(girlname, girlfriend['mails'])]
     encoding = application['mail']['default-encoding']
 
     mail_msg = getMessage()
     # print(mail_msg)
     message = MIMEText(mail_msg, 'HTML', encoding)
-    message['From'] = Header('{}<{}>'.format(boyname, mail_user), encoding)
+    message['From'] = format_addr('{}<{}>'.format(boyname, mail_user))
     if type(receivers) == str:
         receivers = [receivers]
-    receivers.append(mail_user)
-    message['To'] = ','.join('receiver_name{} <{}>'.format(index, i) for index, i in enumerate(receivers))
+    receivers.append("{}<{}>".format(boyname, mail_user))
+    message['To'] = ','.join(format_addr(i) for index, i in enumerate(receivers))
 
     subject = application['name']
     message['Subject'] = Header(subject, 'utf-8')
